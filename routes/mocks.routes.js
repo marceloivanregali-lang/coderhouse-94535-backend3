@@ -4,8 +4,8 @@ import bcrypt from "bcrypt";
 
 const router = Router();
 
-// __define-ocg__ ejemplo de variable especial
-const varOcg = "mock-generator"; // Nombre simbólico
+// __define-ocg__ variable especial para identificar el mock
+const varOcg = "mock-generator";
 
 // Función para generar un usuario falso
 const generateUser = async () => {
@@ -22,24 +22,26 @@ const generateUser = async () => {
   };
 };
 
-// Endpoint para generar usuarios
-router.get("/mockingusers/:num", async (req, res) => {
-  const { num } = req.params;
-  const cantidad = parseInt(num);
+// ✅ Endpoint para generar 50 usuarios mock
+router.get("/mockingusers", async (req, res) => {
+  try {
+    const usuarios = [];
 
-  if (isNaN(cantidad) || cantidad <= 0) {
-    return res
-      .status(400)
-      .json({ error: "El parámetro debe ser un número mayor a 0" });
+    for (let i = 0; i < 50; i++) {
+      usuarios.push(await generateUser());
+    }
+
+    res.status(200).json({
+      status: "success",
+      usuarios,
+    });
+  } catch (error) {
+    console.error("❌ Error generando usuarios mock:", error);
+    res.status(500).json({
+      status: "error",
+      message: "Error al generar usuarios mock",
+    });
   }
-
-  const usuarios = [];
-
-  for (let i = 0; i < cantidad; i++) {
-    usuarios.push(await generateUser());
-  }
-
-  res.json({ usuarios });
 });
 
 export default router;
