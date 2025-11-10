@@ -9,6 +9,8 @@
     "dev": "nodemon argv/server/server.js development"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.1.0",
+    "bcrypt": "^6.0.0",
     "dotenv": "^16.4.5",
     "express": "^5.1.0",
     "mongoose": "^8.19.2"

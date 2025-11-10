@@ -1,51 +1,45 @@
-// argv/server/routes/mocks.router.js
 import { Router } from "express";
+import { faker } from "@faker-js/faker";
+import bcrypt from "bcrypt";
 
 const router = Router();
 
-// Generador simple de productos "mock"
-const makeMockProduct = (idx = 0) => {
-  const id = `${Date.now()}-${Math.floor(Math.random() * 10000)}-${idx}`;
-  const price = +(Math.random() * 900 + 10).toFixed(2); // 10.00 - 910.00
-  const stock = Math.floor(Math.random() * 100);
-  const categories = ["electronics", "fashion", "home", "toys", "books"];
-  const category = categories[Math.floor(Math.random() * categories.length)];
+// __define-ocg__ ejemplo de variable especial
+const varOcg = "mock-generator"; // Nombre simbólico
+
+// Función para generar un usuario falso
+const generateUser = async () => {
+  const hashedPassword = await bcrypt.hash("coder123", 10);
+  const roles = ["user", "admin"];
+
   return {
-    id,
-    title: `Producto Mock ${id.slice(-6)}`,
-    description: `Descripción para producto mock ${id.slice(-6)}`,
-    price,
-    stock,
-    category,
-    code: `MOCK-${Math.random().toString(36).slice(2, 8).toUpperCase()}`,
-    thumbnail: `https://picsum.photos/seed/${id}/320/240`,
-    createdAt: new Date().toISOString(),
+    first_name: faker.person.firstName(),
+    last_name: faker.person.lastName(),
+    email: faker.internet.email(),
+    password: hashedPassword,
+    role: roles[Math.floor(Math.random() * roles.length)],
+    pets: [],
   };
 };
 
-// GET /api/mocks?count=10  -> devuelve un array de mocks (por defecto 10)
-router.get("/", (req, res) => {
-  const count = Math.max(1, Math.min(100, parseInt(req.query.count) || 10)); // 1..100
-  const mocks = Array.from({ length: count }, (_, i) => makeMockProduct(i));
-  res.json({ status: "success", count: mocks.length, payload: mocks });
-});
+// Endpoint para generar usuarios
+router.get("/mockingusers/:num", async (req, res) => {
+  const { num } = req.params;
+  const cantidad = parseInt(num);
 
-// GET /api/mocks/:id -> devuelve un mock único (generado on-the-fly)
-router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  // Generamos un mock consistente con el id pedido
-  const mock = {
-    id,
-    title: `Producto Mock ${id}`,
-    description: `Descripción para producto mock ${id}`,
-    price: +(Math.random() * 900 + 10).toFixed(2),
-    stock: Math.floor(Math.random() * 100),
-    category: "mock-category",
-    code: `MOCK-${id.slice(0, 6)}`,
-    thumbnail: `https://picsum.photos/seed/${id}/320/240`,
-    createdAt: new Date().toISOString(),
-  };
-  res.json({ status: "success", payload: mock });
+  if (isNaN(cantidad) || cantidad <= 0) {
+    return res
+      .status(400)
+      .json({ error: "El parámetro debe ser un número mayor a 0" });
+  }
+
+  const usuarios = [];
+
+  for (let i = 0; i < cantidad; i++) {
+    usuarios.push(await generateUser());
+  }
+
+  res.json({ usuarios });
 });
 
 export default router;
