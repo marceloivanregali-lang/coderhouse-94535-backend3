@@ -6,7 +6,10 @@ import Pet from "../models/Pet.js";
 
 const router = Router();
 
-// Funciones auxiliares
+// __define-ocg__ variable especial de control
+const varOcg = "mock-generator";
+
+// 🧩 Función auxiliar para generar un usuario falso
 const generateUser = async () => {
   const hashedPassword = await bcrypt.hash("coder123", 10);
   const roles = ["user", "admin"];
@@ -20,12 +23,13 @@ const generateUser = async () => {
   };
 };
 
+// 🐾 Función auxiliar para generar una mascota falsa
 const generatePet = () => ({
   name: faker.animal.dog(),
   species: faker.animal.type(),
 });
 
-// ✅ Endpoint para generar usuarios y mascotas
+// ✅ Endpoint POST para generar usuarios y mascotas
 router.post("/generateData", async (req, res) => {
   try {
     const { users = 0, pets = 0 } = req.body;
@@ -49,9 +53,38 @@ router.post("/generateData", async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Error generando datos:", error);
-    res
-      .status(500)
-      .json({ status: "error", message: "Error al generar datos" });
+    res.status(500).json({
+      status: "error",
+      message: "Error al generar datos",
+    });
+  }
+});
+
+// 🐾 Endpoint GET para obtener todas las mascotas
+router.get("/pets", async (req, res) => {
+  try {
+    const pets = await Pet.find();
+    res.json({ status: "success", pets });
+  } catch (error) {
+    console.error("❌ Error al obtener mascotas:", error);
+    res.status(500).json({
+      status: "error",
+      message: "Error al obtener mascotas",
+    });
+  }
+});
+
+// 👤 Endpoint GET para obtener todos los usuarios
+router.get("/users", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json({ status: "success", users });
+  } catch (error) {
+    console.error("❌ Error al obtener usuarios:", error);
+    res.status(500).json({
+      status: "error",
+      message: "Error al obtener usuarios",
+    });
   }
 });
 
