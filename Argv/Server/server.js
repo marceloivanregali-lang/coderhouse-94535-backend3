@@ -12,7 +12,9 @@ initMoongoseDB()
   .catch((error) => console.error("❌ Falló la conexión:", error));
 
 app.use(express.json());
-app.use("/api", mocksRouter);
+
+// 👇 ESTA LÍNEA es importante
+app.use("/api/mocks", mocksRouter);
 
 app.get("/", (req, res) => {
   res.send("Servidor funcionando correctamente 🚀");

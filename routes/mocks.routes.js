@@ -1,17 +1,15 @@
 import { Router } from "express";
 import { faker } from "@faker-js/faker";
 import bcrypt from "bcrypt";
+import User from "../models/User.js";
+import Pet from "../models/Pet.js";
 
 const router = Router();
 
-// __define-ocg__ variable especial para identificar el mock
-const varOcg = "mock-generator";
-
-// Función para generar un usuario falso
+// Funciones auxiliares
 const generateUser = async () => {
   const hashedPassword = await bcrypt.hash("coder123", 10);
   const roles = ["user", "admin"];
-
   return {
     first_name: faker.person.firstName(),
     last_name: faker.person.lastName(),
@@ -22,25 +20,38 @@ const generateUser = async () => {
   };
 };
 
-// ✅ Endpoint para generar 50 usuarios mock
-router.get("/mockingusers", async (req, res) => {
-  try {
-    const usuarios = [];
+const generatePet = () => ({
+  name: faker.animal.dog(),
+  species: faker.animal.type(),
+});
 
-    for (let i = 0; i < 50; i++) {
-      usuarios.push(await generateUser());
+// ✅ Endpoint para generar usuarios y mascotas
+router.post("/generateData", async (req, res) => {
+  try {
+    const { users = 0, pets = 0 } = req.body;
+
+    const usersArr = [];
+    for (let i = 0; i < users; i++) {
+      usersArr.push(await generateUser());
     }
 
-    res.status(200).json({
+    const petsArr = [];
+    for (let i = 0; i < pets; i++) {
+      petsArr.push(generatePet());
+    }
+
+    const insertedUsers = await User.insertMany(usersArr);
+    const insertedPets = await Pet.insertMany(petsArr);
+
+    res.status(201).json({
       status: "success",
-      usuarios,
+      message: `✅ Insertados ${insertedUsers.length} usuarios y ${insertedPets.length} mascotas`,
     });
   } catch (error) {
-    console.error("❌ Error generando usuarios mock:", error);
-    res.status(500).json({
-      status: "error",
-      message: "Error al generar usuarios mock",
-    });
+    console.error("❌ Error generando datos:", error);
+    res
+      .status(500)
+      .json({ status: "error", message: "Error al generar datos" });
   }
 });
 
