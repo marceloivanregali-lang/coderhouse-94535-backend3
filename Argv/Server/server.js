@@ -13,7 +13,6 @@ initMoongoseDB()
 
 app.use(express.json());
 
-// 👇 ESTA LÍNEA es importante
 app.use("/api/mocks", mocksRouter);
 
 app.get("/", (req, res) => {

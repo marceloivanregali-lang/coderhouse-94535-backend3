@@ -6,10 +6,10 @@ import Pet from "../models/Pet.js";
 
 const router = Router();
 
-// __define-ocg__ variable especial de control
+// Variable especial de control
 const varOcg = "mock-generator";
 
-// 🧩 Función auxiliar para generar un usuario falso
+//  Función  para generar un usuario falso
 const generateUser = async () => {
   const hashedPassword = await bcrypt.hash("coder123", 10);
   const roles = ["user", "admin"];
@@ -23,13 +23,13 @@ const generateUser = async () => {
   };
 };
 
-// 🐾 Función auxiliar para generar una mascota falsa
+//  Función para generar una mascota falsa
 const generatePet = () => ({
   name: faker.animal.dog(),
   species: faker.animal.type(),
 });
 
-// ✅ Endpoint POST para generar usuarios y mascotas
+// Endpoint POST para generar usuarios y mascotas
 router.post("/generateData", async (req, res) => {
   try {
     const { users = 0, pets = 0 } = req.body;
@@ -60,7 +60,7 @@ router.post("/generateData", async (req, res) => {
   }
 });
 
-// 🐾 Endpoint GET para obtener todas las mascotas
+//  Endpoint GET para obtener todas las mascotas
 router.get("/pets", async (req, res) => {
   try {
     const pets = await Pet.find();
@@ -74,7 +74,7 @@ router.get("/pets", async (req, res) => {
   }
 });
 
-// 👤 Endpoint GET para obtener todos los usuarios
+//  Endpoint GET para obtener todos los usuarios
 router.get("/users", async (req, res) => {
   try {
     const users = await User.find();
