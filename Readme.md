@@ -25,43 +25,43 @@ git clone <url-del-repo>
 Instalar dependencias:
 
 bash
-Copy code
+Copiar:
 npm install
 ▶️ Ejecutar el servidor
 🔥 Modo desarrollo (con nodemon)
 bash
-Copy code
+Copiar:
 npm run dev
 🌐 Puerto por defecto
 El servidor corre en:
 
 arduino
-Copy code
+Copiar:
 http://localhost:8080
 🐳 Ejecutar con Docker
 1️⃣ Construir la imagen
 bash
-Copy code
+Coiar:
 docker build -t pets-app .
 2️⃣ Ejecutar el contenedor
 bash
-Copy code
+Copiar:
 docker run -d -p 8080:8080 --name pets-container pets-app
 Para ver los contenedores:
 
 bash
-Copy code
+Copiar:
 docker ps -a
 🗄 Variables de entorno
 Crea un archivo:
 
 bash
-Copy code
+Copiar:
 .env
 Con los siguientes valores:
 
 ini
-Copy code
+Copiar:
 MONGO_URL=mongodb://localhost:27017/coderhouse
 PORT=8080
 📚 Documentación Swagger
@@ -102,7 +102,7 @@ GET /api/mocks/generateData
 Ejecutar los test automatizados:
 
 bash
-Copy code
+Copiar:
 npm test
 Tecnologías usadas para testing:
 
