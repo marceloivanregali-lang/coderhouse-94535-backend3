@@ -59,8 +59,7 @@ bash
 Copiar:
 .env
 Con los siguientes valores:
-
-ini
+Iniciar
 Copiar:
 MONGO_URL=mongodb://localhost:27017/coderhouse
 PORT=8080
