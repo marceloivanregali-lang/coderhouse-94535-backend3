@@ -112,7 +112,7 @@ Chai
 Supertest
 
 🗂 Estructura del proyecto
-pgsql
+
 Copy code
 project/
 │── argv/
