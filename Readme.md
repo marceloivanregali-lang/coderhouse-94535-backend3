@@ -20,14 +20,16 @@ Proyecto desarrollado con **Node.js, Express, MongoDB, Swagger y Docker**, inclu
 
 Clonar el repositorio:
 
+```bash
 git clone <url-del-repo>
 Instalar dependencias:
 
+bash
 Copiar:
 npm install
 ▶️ Ejecutar el servidor
 🔥 Modo desarrollo (con nodemon)
-
+bash
 Copiar:
 npm run dev
 🌐 Puerto por defecto
@@ -47,10 +49,12 @@ Copiar:
 docker run -d -p 8080:8080 --name pets-container pets-app
 Para ver los contenedores:
 
+
 Copiar:
 docker ps -a
 🗄 Variables de entorno
 Crea un archivo:
+
 
 Copiar:
 .env
@@ -96,6 +100,7 @@ GET /api/mocks/generateData
 🧪 Testing
 Ejecutar los test automatizados:
 
+
 Copiar:
 npm test
 Tecnologías usadas para testing:
@@ -111,20 +116,20 @@ Supertest
 Copy code
 project/
 │── argv/
-│ └── server/
-│ └── server.js
+│   └── server/
+│       └── server.js
 │
 │── routes/
-│ ├── users.routes.js
-│ ├── pets.routes.js
-│ ├── mocks.routes.js
-│ └── Adoption.routes.js
+│   ├── users.routes.js
+│   ├── pets.routes.js
+│   ├── mocks.routes.js
+│   └── Adoption.routes.js
 │
 │── config/
-│ └── swagger.js
+│   └── swagger.js
 │
 │── server-dotenv/
-│ └── db-connection.js
+│   └── db-connection.js
 │
 │── test/
 │── package.json
@@ -148,9 +153,9 @@ Faker
 
 bcrypt
 
+
 Proyecto desarrollado por Marcelo I. Regali
 Curso Backend – Coderhouse 94535 (2025)
 
-```
 
 ```
